@@ -10,7 +10,7 @@ export default function SkuDetails(props) {
   const value = useContext(CartContext)
 
   const sku = props.sku
-  const inCart = value.cart.find(el => el.sku === sku.id) ? true : false
+  const inCart = false
 
   return (
     <div className="container mt-5">

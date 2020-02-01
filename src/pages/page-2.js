@@ -15,7 +15,7 @@ class SecondPage extends Component {
       <Layout>
         <SEO title="Payment Success" />
         <div className="container mt-5 text-center">
-          <h1 className="display-4">Sucess!</h1>
+          <h1 className="display-4">Success!</h1>
           <Link to="/products/" className="lead">
             Shop again
           </Link>

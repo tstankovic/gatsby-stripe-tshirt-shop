@@ -14,8 +14,8 @@ const Checkout = class extends React.Component {
     event.preventDefault()
     const { error } = await this.stripe.redirectToCheckout({
       items: this.props.cart,
-      successUrl: `http://custos-fidelis.netlify/page-2/`,
-      cancelUrl: `http://custos-fidelis.netlify/products/`,
+      successUrl: `http://custos-fidelis.netlify.com/page-2/`,
+      cancelUrl: `http://custos-fidelis.netlify.com/products/`,
     })
 
     if (error) {

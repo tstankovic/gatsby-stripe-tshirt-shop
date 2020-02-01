@@ -1,21 +1,75 @@
 import React from "react"
-import { Link } from "gatsby"
+import { Link, graphql } from "gatsby"
+import BackgroundImage from "gatsby-background-image"
 
 import Layout from "../components/layout"
-import Image from "../components/image"
 import SEO from "../components/seo"
+import SkuCard from "../components/Products/SkuCard"
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link>
-  </Layout>
-)
+const IndexPage = ({ data }) => {
+  const image = data.img.childImageSharp.fluid
+  const newProducts = data.new.edges
+  return (
+    <Layout>
+      <SEO title="Home" />
+      <BackgroundImage
+        Tag="section"
+        fluid={image}
+        className="background-default"
+      >
+        <Link
+          to="/products/"
+          className="btn btn-lg btn-secondary py-2 px-5 lead text-white"
+        >
+          shop now
+        </Link>
+      </BackgroundImage>
+      <div className="container mt-5">
+        <h2
+          className="text-muted text-center"
+          style={{ borderBottom: "1px solid black" }}
+        >
+          new products
+        </h2>
+        <div className="row">
+          {newProducts.map(({ node: sku }) => (
+            <SkuCard key={sku.id} sku={sku} />
+          ))}
+        </div>
+      </div>
+    </Layout>
+  )
+}
+
+export const pageQuery = graphql`
+  query {
+    img: file(relativePath: { eq: "background.jpg" }) {
+      childImageSharp {
+        fluid {
+          ...GatsbyImageSharpFluid_withWebp
+        }
+      }
+    }
+    new: allStripeSku(sort: { fields: created, order: DESC }, limit: 4) {
+      edges {
+        node {
+          id
+          currency
+          price
+          attributes {
+            name
+          }
+          localFiles {
+            childImageSharp {
+              fluid {
+                ...GatsbyImageSharpFluid
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
 
 export default IndexPage

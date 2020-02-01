@@ -1,16 +1,28 @@
-import React from "react"
+import React, { Component } from "react"
 import { Link } from "gatsby"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
-const SecondPage = () => (
-  <Layout>
-    <SEO title="Page two" />
-    <h1>Hi from the second page</h1>
-    <p>Welcome to page 2</p>
-    <Link to="/">Go back to the homepage</Link>
-  </Layout>
-)
+class SecondPage extends Component {
+  componentDidMount() {
+    // Empty localStorage after successful payment.
+    localStorage.removeItem("stripe_checkout_items")
+  }
+
+  render() {
+    return (
+      <Layout>
+        <SEO title="Payment Success" />
+        <div className="container mt-5 text-center">
+          <h1 className="display-4">Sucess!</h1>
+          <Link to="/products/" className="lead">
+            Shop again
+          </Link>
+        </div>
+      </Layout>
+    )
+  }
+}
 
 export default SecondPage

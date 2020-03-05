@@ -5,6 +5,8 @@ const CartContext = React.createContext()
 class CartProvider extends React.Component {
   state = {
     cart: [],
+    modalOpen: false,
+    modalProduct: {},
   }
 
   componentDidMount() {
@@ -21,10 +23,10 @@ class CartProvider extends React.Component {
     return this.state.cart
   }
 
-  addToCart(newItem, qty = 1) {
+  addToCart(skuId, sku, qty = 1) {
     let itemExisted = false
     let updatedCart = this.state.cart.map(item => {
-      if (newItem === item.sku) {
+      if (skuId === item.sku) {
         itemExisted = true
         return { sku: item.sku, quantity: item.quantity + qty }
       } else {
@@ -32,11 +34,19 @@ class CartProvider extends React.Component {
       }
     })
     if (!itemExisted) {
-      updatedCart = [...updatedCart, { sku: newItem, quantity: qty }]
+      updatedCart = [...updatedCart, { sku: skuId, quantity: qty }]
     }
-    this.setState({ cart: updatedCart })
+    this.setState({ cart: updatedCart }, () => this.openModal(sku))
     // Store the cart in the localStorage.
     localStorage.setItem("stripe_checkout_items", JSON.stringify(updatedCart))
+  }
+
+  openModal(sku) {
+    this.setState({ modalProduct: sku, modalOpen: true })
+  }
+
+  closeModal() {
+    this.setState({ modalProduct: {}, modalOpen: false })
   }
 
   increment(sku) {
@@ -93,6 +103,9 @@ class CartProvider extends React.Component {
           addToCart: this.addToCart.bind(this),
           remove: this.remove.bind(this),
           clearCart: this.clearCart.bind(this),
+          modalOpen: this.state.modalOpen,
+          closeModal: this.closeModal.bind(this),
+          modalProduct: this.state.modalProduct,
         }}
       >
         {this.props.children}

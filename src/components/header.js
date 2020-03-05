@@ -1,9 +1,8 @@
 import React, { useState } from "react"
 import { Link } from "gatsby"
-import PropTypes from "prop-types"
 import { FaShoppingCart } from "react-icons/fa"
 
-const Header = ({ siteTitle }) => {
+export default function Header({ siteTitle }) {
   const [navbarOpen, setNavbarOpen] = useState(false)
   const [css, setCss] = useState("collapse navbar-collapse")
 
@@ -45,20 +44,10 @@ const Header = ({ siteTitle }) => {
           </div>
 
           <Link to="/" className="navbar-brand">
-            Custos Fidelis
+            {siteTitle}
           </Link>
         </div>
       </nav>
     </header>
   )
 }
-
-Header.propTypes = {
-  siteTitle: PropTypes.string,
-}
-
-Header.defaultProps = {
-  siteTitle: ``,
-}
-
-export default Header

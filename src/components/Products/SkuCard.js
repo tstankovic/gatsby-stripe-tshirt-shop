@@ -15,7 +15,7 @@ const SkuCard = props => {
     <SkuWrapper className="col-10 mx-auto col-md-3 my-3">
       <div className="card text-center">
         <div className="img-container">
-          <Link to={`/details/${sku.id.split("_")[1]}`}>
+          <Link to={`/details/${sku.id.split("_")[1]}/`}>
             <Img
               fluid={sku.localFiles[0].childImageSharp.fluid}
               className="card-img-top"
@@ -23,7 +23,7 @@ const SkuCard = props => {
           </Link>
           <button
             className="cart-btn align-middle"
-            onClick={() => value.addToCart(sku.id)}
+            onClick={() => value.addToCart(sku.id, sku)}
             disabled={inCart}
           >
             {inCart ? (

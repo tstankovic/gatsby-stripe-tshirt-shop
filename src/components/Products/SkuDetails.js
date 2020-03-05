@@ -42,17 +42,14 @@ export default function SkuDetails(props) {
             <div className="col-10 col-lg-8 mx-auto">
               <button
                 type="button"
-                className="btn btn-outline-primary btn-lg btn-block mt-2"
+                className="btn btn-primary btn-lg btn-block mt-2"
                 disabled={inCart}
-                onClick={() => value.addToCart(props.sku.id, qty)}
+                onClick={() => value.addToCart(sku.id, sku, qty)}
               >
                 {inCart ? "in cart" : "add to cart"}
               </button>
 
-              <Link
-                to="/"
-                className="btn btn-outline-secondary btn-lg btn-block mt-2"
-              >
+              <Link to="/" className="btn btn-secondary btn-lg btn-block mt-2">
                 back to shop
               </Link>
             </div>

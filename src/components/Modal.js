@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useRef } from "react"
 import { Link } from "gatsby"
 import Img from "gatsby-image"
 import styled from "styled-components"
@@ -8,6 +8,7 @@ import { formatPrice } from "../utils/utils"
 
 const Modal = props => {
   const value = useContext(CartContext)
+  const backdrop = useRef(null)
 
   const { modalOpen, closeModal } = value
 
@@ -18,10 +19,16 @@ const Modal = props => {
     attrs = { ...value.modalProduct }
   }
 
+  const handleClick = e => {
+    if (e.target === backdrop.current) {
+      closeModal()
+    }
+  }
+
   if (!modalOpen) return null
 
   return (
-    <ModalContainer>
+    <ModalContainer ref={backdrop} onClick={handleClick}>
       <div className="container">
         <div className="row">
           <div
@@ -42,7 +49,7 @@ const Modal = props => {
               price: {formatPrice(attrs.price, attrs.currency)}
             </h5>
             <div className="mt-3">
-              <Link to={`/products/`}>
+              <Link style={{ textDecoration: "none" }} to={`/products/`}>
                 <button
                   className="btn btn-primary btn-block btn-lg"
                   onClick={closeModal}
@@ -52,7 +59,7 @@ const Modal = props => {
               </Link>
             </div>
             <div className="mt-1">
-              <Link to="/cart">
+              <Link style={{ textDecoration: "none" }} to="/cart">
                 <button
                   className="btn btn-secondary btn-block btn-lg"
                   onClick={closeModal}
